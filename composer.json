@@ -1,0 +1,24 @@
+{
+	"name": "chinajiuxiang/juhelib",
+    "type": "library",
+    "description": "Self use php class library",
+    "keywords": [],
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "require": {
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-iconv": "*",
+        "ext-gd": "*",
+        "qiniu/php-sdk": "^7.2",
+		"qcloudsms/qcloudsms_php": "^0.1.4",
+		"phpmailer/phpmailer": "^6.0",
+		"alibabacloud/client": "^1.5",
+		"aliyuncs/oss-sdk-php": "^2.3",
+		"phpoffice/phpspreadsheet": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {"JuheLib\\": "src/"},
+        "files": ["common/functions.php"]
+    }
+}
