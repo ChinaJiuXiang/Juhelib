@@ -83,6 +83,11 @@ use Juhelib\sms;
         'qcloud_template_id' => '短信模板 ID',
         'qcloud_sign' => '短信签名',
     ]);
+    // 发送短信，返回 bool（是否发送成功）
+    var_dump(sms::sendSms('手机号',
+        ['验证码'] // 短信参数
+    )); 
+    
     // 阿里短信
     sms::setConfig([
         'engine' => 'alisms', // 短信引擎
@@ -91,8 +96,10 @@ use Juhelib\sms;
         'alisms_template_code' => '短信模板 code',
         'alisms_sign' => '短信签名',
     ]);
-    // 开始短信发送，返回 bool（是否发送成功）
-    var_dump(sms::sendCode('手机号', '验证码', '时效（秒）'));
+    // 发送短信，返回 bool（是否发送成功）
+    var_dump(sms::sendSms('手机号',
+        ['code' => '验证码'] // 短信参数
+    ));
 ...
 ```
 #### image 类使用方法
