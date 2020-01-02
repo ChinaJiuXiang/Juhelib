@@ -59,16 +59,21 @@ use Juhelib\file;
         'alioss_endpoint' => '数据节点', // 我这里用的是杭州节点，http://oss-cn-hangzhou.aliyuncs.com
         'alioss_bucket_name' => '空间名称'
     ]);
+    // 开始文件上传，返回上传成功后的（数组）图片地址
+    var_dump(file::upload([
+        'cloud_directory' => 'resources/upload/', // 这里可以设置云空间存放路径
+        'file_size' => '4096', // 这里可以限制文件大小，默认设置 4M 文件限制，默认单位为KB
+    ]));
+        
     // 上传到本地
     file::setConfig([
         'engine' => 'local'
     ]);
     // 开始文件上传，返回上传成功后的（数组）图片地址
-    var_dump(file::upload(
-        'upload', // 这里填写本地存放目录（必填）
-        '4096', // 这里可以限制文件大小，默认设置 4M 文件限制，默认单位为KB（可选）
-        'resources/upload/', // 这里可以设置云空间存放路径（可选）
-    ));
+    var_dump(file::upload([
+        'upload_folder' => 'upload', // 这里填写本地存放目录
+        'file_size' => '4096' // 这里可以限制文件大小，默认设置 4M 文件限制，默认单位为KB
+    ]));
 ...
 ```
 #### sms 类使用方法，发送短信验证码

@@ -97,20 +97,21 @@ class file
 
     /**
      * 文件上传核心处理函数
-     * @param string $upload_folder 本地存放路径
-     * @param int $file_size 限制文件大小
-     * @param array $file_info 上传文件信息
-     * @param string $cloud_directory 云空间存放路径
-     * @return bool|null|string
+     * @param array $param 参数
+     * @return bool|string|null
      * @throws \Exception
      */
-    private static function uploadHandle($upload_folder, $file_size, $file_info, $cloud_directory = '')
+    private static function uploadHandle($param)
     {
+        $upload_folder = empty($param['upload_folder'])?'':$param['upload_folder']; // 本地存放路径
+        $file_size = empty($param['file_size'])?'':$param['file_size']; // 限制文件大小
+        $file_info = empty($param['file_info'])?'':$param['file_info']; // 上传文件信息
+        $cloud_directory = empty($param['cloud_directory'])?'':$param['cloud_directory']; // 云空间存放路径
         $filter_info = self::filter($file_info, $file_size); if(empty($filter_info)) { return null; }
         $upload_file_path = date('Y')."/".date('m')."/".date('d')."/";
         $upload_file_name = md5(time().mt_rand(10000000, 99999999)).".".$filter_info['ext'];
-        $directory_pach = $upload_folder."/".$upload_file_path;
         if(self::getConfig('engine') == 'local') {
+            $directory_pach = $upload_folder."/".$upload_file_path;
             if(!is_dir($directory_pach)) { mkdir(iconv("UTF-8", "GBK", $directory_pach), 0777, true); }
             if(move_uploaded_file($file_info['tmp_name'], $directory_pach.$upload_file_name)) { return $directory_pach.$upload_file_name; }else{ return null; }
         }else {
@@ -120,14 +121,15 @@ class file
 
     /**
      * 文件上传（上传完成后返回图片地址）
-     * @param string $upload_folder 本地存放路径
-     * @param int $file_size 限制文件大小
-     * @param string $cloud_directory 云空间存放路径
+     * @param array $param 参数
      * @return array
      * @throws \Exception
      */
-    public static function upload($upload_folder, $file_size = 4096, $cloud_directory = '')
+    public static function upload($param)
     {
+        $upload_folder = empty($param['upload_folder'])?'':$param['upload_folder']; // 本地存放路径
+        $file_size = empty($param['file_size'])?4096:$param['file_size']; // 限制文件大小
+        $cloud_directory = empty($param['cloud_directory'])?'':$param['cloud_directory']; // 云空间存放路径
         foreach ($_FILES as $key => $value) {
             if (count($value) == count($value, 1)) { // name 不同名文件上传处理
                 $file_array[$key] = self::uploadHandle($upload_folder, $file_size, $value, $cloud_directory);
