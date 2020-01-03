@@ -18,7 +18,7 @@
 		"phpoffice/phpspreadsheet": "^1.10"
     },
     "autoload": {
-        "psr-4": {"JuheLib\\": "src/"},
+        "psr-4": {"Juhelib\\": "src/"},
         "files": ["common/functions.php"]
     }
 }
