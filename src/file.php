@@ -91,6 +91,22 @@ class file
             } catch(\OSS\Core\OssException $e) {
                 return false;
             }
+        }else if(self::getConfig('engine') == 'qcloud'){
+            $cosClient = new \Qcloud\Cos\Client([
+                'region' => self::getConfig('qcloud_region'),
+                'credentials'=> [
+                    'secretId'  => self::getConfig('qcloud_secret_id'),
+                    'secretKey' => self::getConfig('qcloud_secret_key')
+                ]]);
+            try {
+                $result = array_values((array)$cosClient->upload(
+                    $bucket = self::getConfig('qcloud_bucket'),
+                    $key = $upload_file_name,
+                    $body = fopen($upload_file_path, 'rb')));
+                return 'http://'.$result[0]['Location'];
+            } catch (\Exception $e) {
+                return false;
+            }
         }
         return false;
     }

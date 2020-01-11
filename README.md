@@ -59,6 +59,14 @@ use Juhelib\file;
         'alioss_endpoint' => '数据节点', // 我这里用的是杭州节点，http://oss-cn-hangzhou.aliyuncs.com
         'alioss_bucket_name' => '空间名称'
     ]);
+    // 上传到腾讯COS
+    file::setConfig([
+        'engine' => 'qcloud',
+        'qcloud_region' => '存储桶地域，例如：ap-chengdu',
+        'qcloud_secret_id' => '你的 secretId',
+        'qcloud_secret_key' => '你的 secretKey',
+        'qcloud_bucket' => '格式：BucketName-APPID'
+    ]);
     // 开始文件上传，返回上传成功后的（数组）图片地址
     var_dump(file::upload([
         'cloud_directory' => 'resources/upload/', // 这里可以设置云空间存放路径
