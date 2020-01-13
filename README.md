@@ -66,17 +66,12 @@ use Juhelib\file;
         'qcloud_secret_id' => '你的 secretId',
         'qcloud_secret_key' => '你的 secretKey',
         'qcloud_bucket' => '格式：BucketName-APPID'
-    ]);
-    // 开始文件上传，返回上传成功后的（数组）图片地址
-    var_dump(file::upload([
-        'cloud_directory' => 'resources/upload/', // 这里可以设置云空间存放路径
-        'file_size' => '4096', // 这里可以限制文件大小，默认设置 4M 文件限制，默认单位为KB
-    ]));
-        
+    ]);     
     // 上传到本地
     file::setConfig([
         'engine' => 'local'
     ]);
+    
     // 开始文件上传，返回上传成功后的（数组）图片地址
     var_dump(file::upload([
         'upload_folder' => 'upload', // 这里填写本地存放目录

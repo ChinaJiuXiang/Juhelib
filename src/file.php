@@ -88,25 +88,20 @@ class file
                 $ossClient->uploadFile(self::getConfig('alioss_bucket_name'), $upload_file_name, $upload_file_path);
                 $ossClient = (array)$ossClient;
                 return array_values($ossClient)[4];
-            } catch(\OSS\Core\OssException $e) {
-                return false;
-            }
+            } catch(\OSS\Core\OssException $e) { return false; }
         }else if(self::getConfig('engine') == 'qcloud'){
             $cosClient = new \Qcloud\Cos\Client([
                 'region' => self::getConfig('qcloud_region'),
                 'credentials'=> [
                     'secretId'  => self::getConfig('qcloud_secret_id'),
-                    'secretKey' => self::getConfig('qcloud_secret_key')
-                ]]);
+                    'secretKey' => self::getConfig('qcloud_secret_key')]]);
             try {
                 $result = array_values((array)$cosClient->upload(
                     $bucket = self::getConfig('qcloud_bucket'),
                     $key = $upload_file_name,
                     $body = fopen($upload_file_path, 'rb')));
                 return 'http://'.$result[0]['Location'];
-            } catch (\Exception $e) {
-                return false;
-            }
+            } catch (\Exception $e) { return false; }
         }
         return false;
     }
@@ -116,23 +111,23 @@ class file
      * @param string $upload_folder 本地存放路径
      * @param int $file_size 限制文件大小
      * @param array $file_info 上传文件信息
-     * @param string $cloud_directory 云空间存放路径
      * @return bool|null|string
      * @throws \Exception
      */
-    private static function uploadHandle($upload_folder, $file_size, $file_info, $cloud_directory = '')
+    private static function uploadHandle($upload_folder, $file_size, $file_info)
     {
-        $filter_info = self::filter($file_info, $file_size); if(empty($filter_info)) return false;
+        $filter_info = self::filter($file_info, $file_size);
+        if(empty($filter_info) || empty($upload_folder)) return false;
         $upload_file_path = date('Y')."-".date('m')."-".date('d')."/";
         $upload_file_name = md5(time().mt_rand(10000000, 99999999)).".".$filter_info['ext'];
+        $directory_pach = $upload_folder."/".$upload_file_path;
+        $save_file_path = $directory_pach.$upload_file_name;
         if(self::getConfig('engine') == 'local') {
-            if(empty($upload_folder)) return false;
-            $directory_pach = $upload_folder."/".$upload_file_path;
-            if(!is_dir($directory_pach)) { mkdir(iconv("UTF-8", "GBK", $directory_pach), 0777, true); }
-            if(move_uploaded_file($file_info['tmp_name'], $directory_pach.$upload_file_name)) { return $directory_pach.$upload_file_name; }else{ return false; }
+            if(!is_dir($directory_pach))
+                mkdir(iconv("UTF-8", "GBK", $directory_pach), 0777, true);
+            return (move_uploaded_file($file_info['tmp_name'], $save_file_path)) ? $save_file_path : false;
         }else {
-            if(empty($cloud_directory)) return false;
-            return self::uploadPackage($cloud_directory.$upload_file_path.$upload_file_name, $file_info['tmp_name']);
+            return self::uploadPackage($save_file_path, $file_info['tmp_name']);
         }
     }
 
@@ -144,18 +139,17 @@ class file
      */
     public static function upload($param)
     {
-        $upload_folder = empty($param['upload_folder'])?'':$param['upload_folder']; // 本地存放路径
+        $upload_folder = empty($param['upload_folder'])?'':$param['upload_folder']; // 文件存放路径
         $file_size = empty($param['file_size'])?4096:$param['file_size']; // 限制文件大小
-        $cloud_directory = empty($param['cloud_directory'])?'':$param['cloud_directory']; // 云空间存放路径
         foreach ($_FILES as $key => $value) {
             if (count($value) == count($value, 1)) { // name 不同名文件上传处理
-                $file_array[$key] = self::uploadHandle($upload_folder, $file_size, $value, $cloud_directory);
+                $file_array[$key] = self::uploadHandle($upload_folder, $file_size, $value);
             } else if (count($value) == count($value, 2)) { // name 同名数组多文件上传处理
                 // 数组处理
                 foreach ($value as $k1 => $v1) { foreach ($v1 as $k2 => $v2) { $array_info[$k2][$k1] = $v2; } }
                 // 数据组装
                 foreach ($array_info as $k => $v) {
-                    $file_array[$key][$k] = self::uploadHandle($upload_folder, $file_size, $v, $cloud_directory);
+                    $file_array[$key][$k] = self::uploadHandle($upload_folder, $file_size, $v);
                 }
             }
         }
