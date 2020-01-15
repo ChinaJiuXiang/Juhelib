@@ -125,7 +125,7 @@ class file
         if(self::getConfig('engine') == 'local') {
             if(!is_dir($directory_pach))
                 mkdir(iconv("UTF-8", "GBK", $directory_pach), 0777, true);
-            return (move_uploaded_file($file_info['tmp_name'], $save_file_path)) ? $save_file_path : false;
+            return (move_uploaded_file($file_info['tmp_name'], $save_file_path)) ? (($_SERVER['SERVER_PORT'] == '443')?'https':'http').'://'.$_SERVER['SERVER_NAME'].'/'.$save_file_path : false;
         }else {
             return self::uploadPackage($save_file_path, $file_info['tmp_name']);
         }
