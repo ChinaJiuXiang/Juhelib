@@ -1,5 +1,4 @@
 <?php
-
 /**
  * 批量文本替换
  * @param string $context 源文本
@@ -150,34 +149,4 @@ function getSubstr($str, $leftStr, $rightStr) {
  */
 function object2Array($object) {
     return json_decode(json_encode($object, JSON_UNESCAPED_UNICODE), true);
-}
-
-/**
- * 输出 AJAX 数据（成功）
- * @param array $data 数据
- * @param string $msg 信息
- * @return false|string
- */
-function ajaxSuccess($data = [], $msg = '成功') {
-    return json_encode(array('code' => 200, 'msg' => $msg, 'data' => $data), JSON_UNESCAPED_UNICODE); die;
-}
-
-/**
- * 输出 AJAX 数据（失败）
- * @param string $msg 信息
- * @param array $data 数据
- * @return false|string
- */
-function ajaxError($msg = '失败', $data = []) {
-    return json_encode(array('code' => -1, 'msg' => $msg, 'data' => $data), JSON_UNESCAPED_UNICODE); die;
-}
-
-/**
- * 输出 AJAX 数据（警告）
- * @param string $msg 信息
- * @param array $data 数据
- * @return false|string
- */
-function ajaxWarn($code = -2, $msg = '警告', $data = []) {
-    return json_encode(array('code' => $code, 'msg' => $msg, 'data' => $data), JSON_UNESCAPED_UNICODE); die;
 }
