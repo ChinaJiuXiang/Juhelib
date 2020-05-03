@@ -56,8 +56,8 @@ class ip
      */
     private static function qqwry($ip)
     {
-        $data = call_user_func_array(array("\\Juhelib\\extend\\ip\\qqwry", "getlocation"), array($ip));
-        return ["ip" => $data["ip"], "address" => $data["country"]." ".$data["area"]];
+        $data = (new \Juhelib\extend\ip\qqwry)->getlocation($ip);
+        return ["ip" => $data["ip"], "address" => str_replace_once('CZ88.NET', '', $data["country"]." ".$data["area"])];
     }
 
     /**
