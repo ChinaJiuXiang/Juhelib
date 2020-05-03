@@ -36,39 +36,6 @@ function str_replace_once($needle, $replace, $haystack) {
 }
 
 /**
- * 获取 IP地址、归属地
- * @param string $type IP 识别库
- * @return array
- */
-function isIP($type = 'ip138')
-{
-    $unknown = 'unknown';
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR']) && $_SERVER['HTTP_X_FORWARDED_FOR'] && strcasecmp($_SERVER['HTTP_X_FORWARDED_FOR'], $unknown)) {
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] && strcasecmp($_SERVER['REMOTE_ADDR'], $unknown)) {
-        $ip = $_SERVER['REMOTE_ADDR'];
-    }
-    if (false !== strpos($ip, ',')) { $ip = reset(explode(',', $ip)); }
-    if($ip == "::1") { $ip = "127.0.0.1"; }
-    if($type == 'taobao') { // 淘宝 IP 地址库
-        $JsonIp = json_decode(httpGet("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip),true);
-        if($JsonIp["data"]["region"] != ""){
-            $arrayName = [ 'ip' => $ip, 'address' => $JsonIp["data"]["country"]."-".$JsonIp["data"]["area"]."地区 ".$JsonIp["data"]["region"].$JsonIp["data"]["city"]." ".$JsonIp["data"]["isp"] ];
-        }else{
-            $arrayName = [ 'ip' => $ip, 'address' => $JsonIp["data"]["country"] ];
-        }
-    }elseif($type == 'ip138') { // IP138 IP 地址库
-        $JsonIp = httpsGet("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query=" . $ip . "&co=&resource_id=6006&t=1492224411362&ie=utf8&oe=gbk&cb=op_aladdin_callback&format=json&tn=baidu&cb=jQuery1102032941802880745374_1492224400641&_=1492224400643");
-        $JsonIp = mb_convert_encoding($JsonIp, "utf-8", "gbk");
-        $JsonIp = json_decode(getSubstr($JsonIp, "/**/jQuery1102032941802880745374_1492224400641(", ");"), true);
-        $arrayName = [ 'ip' => isset($JsonIp["data"][0]["origip"]) ? $JsonIp["data"][0]["origip"] : "",
-            'address' => isset($JsonIp["data"][0]["location"]) ? $JsonIp["data"][0]["location"] : "",
-        ];
-    }
-    return $arrayName;
-}
-
-/**
  * curl http get 方式访问
  * @param string $url 网址
  * @return mixed 网页源代码
