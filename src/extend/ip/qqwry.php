@@ -34,8 +34,8 @@ class qqwry
 
     /**
      * 构造函数，打开 QQWry.Dat 文件并初始化类中的信息
+     * qqwry constructor.
      * @param string $filename
-     * @return IpLocation
      */
     public function __construct($filename = '')
     {
@@ -175,9 +175,8 @@ class qqwry
 
     /**
      * 根据所给 IP 地址或域名返回所在地区信息
-     * @access public
-     * @param string $ip
-     * @return array
+     * @param $ip
+     * @return array|null
      */
     public function getlocation($ip)
     {
@@ -229,8 +228,8 @@ class qqwry
 
     /**
      * 将变为由GBK转换为指定的编码
-     * @param  Array $location
-     * @return Array
+     * @param  array $location
+     * @return array
      */
     private function transcoding($location)
     {
@@ -244,7 +243,7 @@ class qqwry
      * 处理其他情况 -- 没有信息或本地，局域网的情况
      * @param $location
      * @internal param String $ip ip地址
-     * @return Array
+     * @return array
      */
     private function otherLocation($location)
     {
