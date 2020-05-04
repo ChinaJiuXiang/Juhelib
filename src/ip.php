@@ -46,7 +46,7 @@ class ip
     }
 
     /**
-     * 获取本机 IP
+     * 获取 IP 地址
      * @return mixed|string
      */
     public static function getIP()
@@ -62,7 +62,7 @@ class ip
     }
 
     /**
-     * 获取 IP地址、归属地
+     * 获取 IP 详细数据
      * @param string $type IP 识别库
      * @return array
      */

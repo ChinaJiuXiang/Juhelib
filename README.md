@@ -124,9 +124,9 @@ use Juhelib\image;
 ```php
 use Juhelib\ip;
 ...
-    // 获取 IP
+    // 获取 IP 地址
     ip::getIP();
-    // 获取 IP 归属地，返回 [Array] 数据
+    // 获取 IP 数据，返回 [Array] 数据
     ip::getData('qqwry'); // 可选参数: taobao/ip138/qqwry
 ...
 ```
