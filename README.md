@@ -120,6 +120,14 @@ use Juhelib\image;
     image::check_gifcartoon('图片路径');
 ...
 ```
+#### ip 类使用方法
+```php
+use Juhelib\ip;
+...
+    // 获取 IP 归属地
+    ip::getData('qqwry'); // 可选参数“taobao/ip138/qqwry”，默认使用纯真ip库 
+...
+```
 #### excel 类使用方法
 ```php
 use Juhelib\excel;
