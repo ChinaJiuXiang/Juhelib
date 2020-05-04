@@ -130,6 +130,18 @@ use Juhelib\ip;
     ip::getData('qqwry'); // 可选参数: taobao/ip138/qqwry
 ...
 ```
+#### hook 类使用方法
+```php
+use Juhelib\hook;
+...
+    // 注册钩子
+    hook::add('name', function() {
+        echo 'hello world';
+    });
+    // 执行钩子
+    hook::run('name');
+...
+```
 #### excel 类使用方法
 ```php
 use Juhelib\excel;
