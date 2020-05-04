@@ -124,8 +124,10 @@ use Juhelib\image;
 ```php
 use Juhelib\ip;
 ...
-    // 获取 IP 归属地
-    ip::getData('qqwry'); // 可选参数“taobao/ip138/qqwry”，默认使用纯真ip库 
+    // 获取 IP
+    ip::getIP();
+    // 获取 IP 归属地，返回 [Array] 数据
+    ip::getData('qqwry'); // 可选参数: taobao/ip138/qqwry
 ...
 ```
 #### excel 类使用方法

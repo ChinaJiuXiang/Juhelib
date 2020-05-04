@@ -3,22 +3,6 @@ namespace Juhelib;
 class ip
 {
     /**
-     * 获取本机 IP
-     * @return mixed|string
-     */
-    private static function getIP()
-    {
-        $unknown = "unknown";
-        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) && $_SERVER["HTTP_X_FORWARDED_FOR"] && strcasecmp($_SERVER["HTTP_X_FORWARDED_FOR"], $unknown)) {
-            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-        } elseif (isset($_SERVER["REMOTE_ADDR"]) && $_SERVER["REMOTE_ADDR"] && strcasecmp($_SERVER["REMOTE_ADDR"], $unknown)) {
-            $ip = $_SERVER["REMOTE_ADDR"];
-        }
-        $ip = (false !== strpos($ip, ",")) ? reset(explode(",", $ip)) : $ip;
-        return ($ip == "::1") ? "127.0.0.1" : $ip;
-    }
-
-    /**
      * ip138 地址库（线上）
      * @param $ip
      * @return array
@@ -62,11 +46,27 @@ class ip
     }
 
     /**
+     * 获取本机 IP
+     * @return mixed|string
+     */
+    public static function getIP()
+    {
+        $unknown = "unknown";
+        if (isset($_SERVER["HTTP_X_FORWARDED_FOR"]) && $_SERVER["HTTP_X_FORWARDED_FOR"] && strcasecmp($_SERVER["HTTP_X_FORWARDED_FOR"], $unknown)) {
+            $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+        } elseif (isset($_SERVER["REMOTE_ADDR"]) && $_SERVER["REMOTE_ADDR"] && strcasecmp($_SERVER["REMOTE_ADDR"], $unknown)) {
+            $ip = $_SERVER["REMOTE_ADDR"];
+        }
+        $ip = (false !== strpos($ip, ",")) ? reset(explode(",", $ip)) : $ip;
+        return ($ip == "::1") ? "127.0.0.1" : $ip;
+    }
+
+    /**
      * 获取 IP地址、归属地
      * @param string $type IP 识别库
      * @return array
      */
-    public static function getData($type="qqwry")
+    public static function getData($type = "qqwry")
     {
         $ip = self::getIP();
         if($type == "taobao") {
