@@ -10,7 +10,7 @@ class strings
      * @param int $expiry 到期时间（秒）
      * @return bool|string
      */
-    private static function string_handle($string, $operation = 'decode', $key = '', $expiry = 0)
+    public static function string_handle($string, $operation = 'decode', $key = '', $expiry = 0)
     {
        $ckey_length = 4;
        $key = md5($key ? $key : "293b2b89fab1238f472e229f95709411");
