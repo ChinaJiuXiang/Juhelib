@@ -120,6 +120,28 @@ use Juhelib\image;
     image::check_gifcartoon('图片路径');
 ...
 ```
+#### ip 类使用方法
+```php
+use Juhelib\ip;
+...
+    // 获取 IP 地址
+    ip::getIP();
+    // 获取 IP 数据，返回 [Array] 数据
+    ip::getData('qqwry'); // 可选参数: taobao/ip138/qqwry
+...
+```
+#### hook 类使用方法
+```php
+use Juhelib\hook;
+...
+    // 注册钩子
+    hook::add('name', function() {
+        echo 'hello world';
+    });
+    // 执行钩子
+    hook::run('name');
+...
+```
 #### excel 类使用方法
 ```php
 use Juhelib\excel;
