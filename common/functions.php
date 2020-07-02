@@ -166,3 +166,11 @@ function getinitial($str)
         return '';
     }
 }
+
+// 获取毫秒时间
+function microsecond()
+{
+    $t = explode(" ", microtime());
+    $microsecond = round(round($t[1].substr($t[0],2,3)));
+    return $microsecond;
+}
