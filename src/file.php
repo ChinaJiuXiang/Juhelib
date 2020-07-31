@@ -118,14 +118,13 @@ class file
     {
         $filter_info = self::filter($file_info, $file_size);
         if(empty($filter_info) || empty($upload_folder)) return false;
-        $upload_file_path = date('Y')."-".date('m')."-".date('d')."/";
         $upload_file_name = md5(time().mt_rand(10000000, 99999999)).".".$filter_info['ext'];
-        $directory_pach = $upload_folder."/".$upload_file_path;
+        $directory_pach = $upload_folder.DIRECTORY_SEPARATOR;
         $save_file_path = $directory_pach.$upload_file_name;
         if(self::getConfig('engine') == 'local') {
             if(!is_dir($directory_pach))
                 mkdir(iconv("UTF-8", "GBK", $directory_pach), 0777, true);
-            return (move_uploaded_file($file_info['tmp_name'], $save_file_path)) ? (($_SERVER['SERVER_PORT'] == '443')?'https':'http').'://'.$_SERVER['SERVER_NAME'].'/'.$save_file_path : false;
+            return (move_uploaded_file($file_info['tmp_name'], $save_file_path)) ? $save_file_path : false;
         }else {
             return self::uploadPackage($save_file_path, $file_info['tmp_name']);
         }
