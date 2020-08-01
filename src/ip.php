@@ -35,7 +35,7 @@ class ip
 
     /**
      * qqwry 地址库（本地）
-     * 版本：2020-04-30
+     * 版本：2020-07-30
      * @param $ip
      * @return array
      */
