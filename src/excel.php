@@ -85,32 +85,6 @@ class excel
     }
 
     /**
-     * 导出 Excel 文件 Demo
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     */
-    public static function exportExcelDemo()
-    {
-        self::exportExcel(
-            [
-                '基础需求', '场景需求', '需求说明'
-            ], [
-                ['类别', '子类', '需求编号', '需求', '建议采用', '确认是否采用', '不采用原因'],
-                ['需求编号', '需求详解']
-            ], [
-                [
-                    ['A', 'B', 'C', 'D', 'E', 'F', 'G'],
-                    ['A1', 'B1', 'C1', 'D1', 'E1', 'F1', 'G1'],
-                    ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2'],
-                ], [
-                    ['A', 'B'],
-                    ['A1', 'B1'],
-                    ['A2', 'B2'],
-                ]
-            ]
-        );
-    }
-
-    /**
      * 计算 Excel 列数代码
      * @param $key
      * @return mixed
