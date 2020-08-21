@@ -9,7 +9,7 @@ class file
      * @param string $name
      * @return mixed|string
      */
-    private static function getConfig($name) {
+    protected static function getConfig($name) {
         return empty(self::$config[$name]) ? null : self::$config[$name];
     }
 
@@ -28,7 +28,7 @@ class file
      * @param string $filename
      * @return mixed|null
      */
-    private static function whiteList($filename)
+    protected static function whiteList($filename)
     {
         $ext = array('gif', 'png', 'bmp', 'jpg', 'jpeg', 'psd', '7z', 'zip', 'rar', 'tar', 'gz', 'doc', 'docx', 'ppt', 'pptx'
         , 'xls', 'xlsx', 'mp3', 'mp4', 'avi', 'mpg', 'swf', 'fla', 'apk', 'pdf', 'rm', 'ra', 'rmvb', 'mov', 'wmv', 'wma', 'svg'
@@ -50,7 +50,7 @@ class file
      * @param int $filesize 限制文件大小
      * @return array|bool
      */
-    private static function filter($fileinfo, $filesize)
+    protected static function filter($fileinfo, $filesize)
     {
         if ($fileinfo["error"] > 0) { return false; }
         // 文件大小过滤，单位：KB
@@ -74,7 +74,7 @@ class file
      * @return bool|string
      * @throws \Exception
      */
-    private static function uploadPackage($upload_file_name, $upload_file_path)
+    protected static function uploadPackage($upload_file_name, $upload_file_path)
     {
         if(self::getConfig('engine') == 'qiniu') {
             $upManager = new \Qiniu\Storage\UploadManager();
@@ -114,7 +114,7 @@ class file
      * @return bool|null|string
      * @throws \Exception
      */
-    private static function uploadHandle($upload_folder, $file_size, $file_info)
+    protected static function uploadHandle($upload_folder, $file_size, $file_info)
     {
         $filter_info = self::filter($file_info, $file_size);
         if(empty($filter_info) || empty($upload_folder)) return false;

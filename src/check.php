@@ -203,4 +203,13 @@ class check
     public static function isWebchat($val){
         return (preg_match("/^[-_a-zA-Z0-9]{5,19}$/",$val)) ? true : false;
     }
+
+    /**
+     * 是否是 IP
+     * @param string $val
+     * @return bool
+     */
+    public static function isIP($val){
+        return (preg_match('/^\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}$/', $val)) ? true : false;
+    }
 }

@@ -7,7 +7,7 @@ class ip
      * @param $ip
      * @return array
      */
-    private static function ip138($ip)
+    protected static function ip138($ip)
     {
         $data = httpsGet("https://sp0.baidu.com/8aQDcjqpAAV3otqbppnN2DJv/api.php?query=" . $ip . "&co=&resource_id=6006&t=1492224411362&ie=utf8&oe=gbk&cb=op_aladdin_callback&format=json&tn=baidu&cb=jQuery1102032941802880745374_1492224400641&_=1492224400643");
         $data = mb_convert_encoding($data, "utf-8", "gbk");
@@ -23,7 +23,7 @@ class ip
      * @param $ip
      * @return array
      */
-    private static function taobao($ip)
+    protected static function taobao($ip)
     {
         $data = json_decode(httpGet("http://ip.taobao.com/service/getIpInfo.php?ip=".$ip),true);
         if($data["data"]["region"] != ""){
@@ -39,7 +39,7 @@ class ip
      * @param $ip
      * @return array
      */
-    private static function qqwry($ip)
+    protected static function qqwry($ip)
     {
         $data = (new \Juhelib\extend\ip\qqwry)->getlocation($ip);
         return ["ip" => $data["ip"], "address" => str_replace_once('CZ88.NET', '', $data["country"]." ".$data["area"])];

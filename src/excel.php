@@ -32,31 +32,29 @@ class excel
 
     /**
      * 导出 Excel 文件
-     * @param array $title
-     * @param array $header
      * @param array $data
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public static function exportExcel($title, $header, $data)
+    public static function exportExcel($data)
     {
         // Create new Spreadsheet object
         $spreadsheet = new Spreadsheet(); $sheet = []; $i = 0;
-        foreach ($title as $key1 => $value1) {
+        foreach ($data as $key1 => $value1) {
             if($i == 0) {
-                $sheet[$key1] = $spreadsheet->getActiveSheet()->setTitle($value1);
+                $sheet[$key1] = $spreadsheet->getActiveSheet()->setTitle($value1['name']);
             }else{
-                $sheet[$key1] = $spreadsheet->createSheet()->setTitle($value1);
+                $sheet[$key1] = $spreadsheet->createSheet()->setTitle($value1['name']);
             }
-            foreach ($header[$key1] as $key2 => $value2) {
+            foreach ($value1['title'] as $key2 => $value2) {
                 // 单元格标题写入
                 $sheet[$key1]->setCellValueByColumnAndRow($key2 + 1, 1, $value2);
             }
             $row = 2; // 从第二行开始内容写入
-            foreach ($data[$key1] as $item) {
+            foreach ($value1['data'] as $item) {
                 $column = 1;
-                foreach ($item as $value) {
+                foreach ($item as $value3) {
                     // 单元格内容写入
-                    $sheet[$key1]->setCellValueByColumnAndRow($column, $row, $value);
+                    $sheet[$key1]->setCellValueByColumnAndRow($column, $row, $value3);
                     $column++;
                 }
                 $row++;
@@ -65,10 +63,10 @@ class excel
             $font = ['font' => ['bold' => true]];
             // 所有 sheet 的内容样式 加黑色边框
             $borders = ['borders' => ['allBorders' => ['borderStyle' => Border::BORDER_THIN, 'color' => ['argb' => 'black']]]];
-            $sheet[$key1]->getStyle('A1:'.self::getSheetNumber(count($header[$key1])-1).'1')->applyFromArray($font);
-            $sheet[$key1]->getStyle('A1:'.self::getSheetNumber(count($header[$key1])-1).($row-1))->applyFromArray($borders);
-            foreach ($header[$key1] as $key3 => $value3) {
-                $sheet[$key1]->getColumnDimension(self::getSheetNumber($key3))->setAutoSize(true);
+            $sheet[$key1]->getStyle('A1:'.self::getRowCode(count($value1['title'])-1).'1')->applyFromArray($font);
+            $sheet[$key1]->getStyle('A1:'.self::getRowCode(count($value1['title'])-1).($row-1))->applyFromArray($borders);
+            foreach ($value1['title'] as $key4 => $value4) {
+                $sheet[$key1]->getColumnDimension(self::getRowCode($key4))->setAutoSize(true);
             }
             unset($row); unset($column); $i++;
         }
@@ -85,11 +83,11 @@ class excel
     }
 
     /**
-     * 计算 Excel 列数代码
+     * 计算 Excel 列码
      * @param $key
      * @return mixed
      */
-    public static function getSheetNumber($key)
+    protected static function getRowCode($key)
     {
         $array = [
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',

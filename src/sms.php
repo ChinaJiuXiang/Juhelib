@@ -6,14 +6,14 @@ use AlibabaCloud\Client\Exception\ClientException;
 use AlibabaCloud\Client\Exception\ServerException;
 class sms
 {
-    private static $config = [];
+    protected static $config = [];
 
     /**
      * 读取数据配置
      * @param $name
      * @return mixed|string
      */
-    private static function getConfig($name) {
+    protected static function getConfig($name) {
         return empty(self::$config[$name]) ? null : self::$config[$name];
     }
 
