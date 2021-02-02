@@ -40,9 +40,9 @@ class ip
      * @param $ip
      * @return array
      */
-    protected static function qqwry($ip)
+    protected static function qqwry($ip, $filename = '')
     {
-        $data = (new \Juhelib\extend\ip\qqwry)->getlocation($ip);
+        $data = (new \Juhelib\extend\ip\qqwry($filename))->getlocation($ip);
         return ["ip" => $data["ip"], "address" => str_replace_once('CZ88.NET', '', $data["country"]." ".$data["area"])];
     }
 
@@ -67,15 +67,15 @@ class ip
      * @param string $type IP 识别库
      * @return array
      */
-    public static function getData($type = "qqwry")
+    public static function getData($type = 'qqwry', $ip = '', $filename = '')
     {
-        $ip = self::getIP();
+        $ip = empty($ip) ? self::getIP() : $ip;
         if($type == "taobao") {
             return self::taobao($ip);
         }elseif($type == "ip138") {
             return self::ip138($ip);
         }elseif ($type == "qqwry") {
-            return self::qqwry($ip);
+            return self::qqwry($ip, $filename);
         }else{
             return ['ip' => '', 'address' => ''];
         }
